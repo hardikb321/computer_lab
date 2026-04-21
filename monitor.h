@@ -1,7 +1,7 @@
 #ifndef MONITOR_H
 #define MONITOR_H
+
 #include <GL/glut.h>
-#include <string>
 
 void drawMonitorCube(float w, float h, float d) {
     glPushMatrix();
@@ -20,52 +20,41 @@ void drawBitmapText(float x, float y, void *font, const char *text) {
 void drawMonitor() {
     glPushMatrix();
     // Move up so the base sits perfectly on the table
-    glTranslatef(0.0f, 2.4f, 0.0f); 
+    glTranslatef(0.0f, 2.4f, 0.0f);
 
     // Bezel (DARK GREY)
     glColor3f(0.1f, 0.1f, 0.1f);
-    drawMonitorCube(3.5, 2.2, 0.3);
+    drawMonitorCube(3.5f, 2.2f, 0.3f);
 
     // Screen (Google homepage style)
     glPushMatrix();
-    glTranslatef(0, 0, 0.18);
+    glTranslatef(0.0f, 0.0f, 0.18f);
 
-    // White screen background
+    // Screen background
     glColor3f(1.0f, 1.0f, 1.0f);
-    drawMonitorCube(3.0, 1.7, 0.05);
+    drawMonitorCube(3.0f, 1.7f, 0.05f);
 
-    // Draw UI elements on top of the screen
     glDisable(GL_LIGHTING);
-    glColor3f(0.0f, 0.0f, 0.0f);
 
     // Google logo text
-    glPushMatrix();
-    glTranslatef(-0.62f, 0.28f, 0.03f);
-    glScalef(0.0015f, 0.0015f, 1.0f);
     glColor3f(0.2f, 0.2f, 0.2f);
-    drawBitmapText(0, 0, GLUT_BITMAP_TIMES_ROMAN_24, "Google");
+    glPushMatrix();
+    glTranslatef(-0.52f, 0.18f, 0.03f);
+    drawBitmapText(0.0f, 0.0f, GLUT_BITMAP_HELVETICA_18, "Google");
     glPopMatrix();
 
     // Search bar
     glPushMatrix();
-    glTranslatef(-0.95f, -0.05f, 0.03f);
+    glTranslatef(-0.92f, -0.08f, 0.03f);
     glColor3f(0.95f, 0.95f, 0.95f);
-    drawMonitorCube(1.9f, 0.28f, 0.01f);
+    drawMonitorCube(1.85f, 0.26f, 0.01f);
     glPopMatrix();
 
-    // Search bar outline
+    // Search prompt inside the bar
+    glColor3f(0.55f, 0.55f, 0.55f);
     glPushMatrix();
-    glTranslatef(-0.95f, -0.05f, 0.031f);
-    glColor3f(0.75f, 0.75f, 0.75f);
-    glutWireCube(0.0); // no-op placeholder, keeps same structure
-    glPopMatrix();
-
-    // Search text
-    glPushMatrix();
-    glTranslatef(-0.87f, -0.09f, 0.04f);
-    glScalef(0.0012f, 0.0012f, 1.0f);
-    glColor3f(0.5f, 0.5f, 0.5f);
-    drawBitmapText(0, 0, GLUT_BITMAP_HELVETICA_18, "Search Google or type a URL");
+    glTranslatef(-0.82f, -0.12f, 0.04f);
+    drawBitmapText(0.0f, 0.0f, GLUT_BITMAP_HELVETICA_12, "Search Google");
     glPopMatrix();
 
     glEnable(GL_LIGHTING);
@@ -73,18 +62,19 @@ void drawMonitor() {
 
     // Neck
     glPushMatrix();
-    glTranslatef(0, -1.6, 0);
+    glTranslatef(0.0f, -1.6f, 0.0f);
     glColor3f(0.25f, 0.25f, 0.25f);
-    drawMonitorCube(0.4, 1.2, 0.2);
+    drawMonitorCube(0.4f, 1.2f, 0.2f);
     glPopMatrix();
 
     // Base
     glPushMatrix();
-    glTranslatef(0, -2.3, 0.3);
+    glTranslatef(0.0f, -2.3f, 0.3f);
     glColor3f(0.2f, 0.2f, 0.2f);
-    drawMonitorCube(1.8, 0.2, 1.0);
+    drawMonitorCube(1.8f, 0.2f, 1.0f);
     glPopMatrix();
 
     glPopMatrix();
 }
+
 #endif

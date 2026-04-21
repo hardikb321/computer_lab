@@ -21,11 +21,16 @@ void drawMonitor() {
     // Screen (WHITE)
     glPushMatrix();
     glTranslatef(0.0f, 0.0f, 0.18f);
-    glColor3f(1.0f, 1.0f, 1.0f); // Changed to White
+    glColor3f(1.0f, 1.0f, 1.0f); // Screen Background
     drawMonitorCube(3.0, 1.7, 0.05);
 
     // --- Google Home Page Content ---
-    glTranslatef(0.0f, 0.0f, 0.026f); 
+    glTranslatef(0.0f, 0.0f, 0.026f); // Move forward to avoid Z-fighting
+    
+    // TEMPORARILY DISABLE LIGHTING to prevent colors from washing out
+    GLboolean lightState;
+    glGetBooleanv(GL_LIGHTING, &lightState);
+    glDisable(GL_LIGHTING);
 
     // 1. Search Bar (Black Outline)
     glPushMatrix();
@@ -34,16 +39,16 @@ void drawMonitor() {
     glLineWidth(2.0f);           // Slightly thicker outline
     glPushMatrix();
     glScalef(1.8f, 0.25f, 0.01f);
-    glutWireCube(1.0);           // Wire cube creates the outline
+    glutWireCube(1.0);           
     glPopMatrix();
     glLineWidth(1.0f);
     glPopMatrix();
 
     // 2. "search..." inside the search bar (Black Text)
     glPushMatrix();
-    glTranslatef(-0.85f, -0.24f, 0.0f); // Aligned inside the search bar
+    glTranslatef(-0.85f, -0.24f, 0.0f); 
     glScalef(0.0008f, 0.0008f, 1.0f); 
-    glColor3f(0.0f, 0.0f, 0.0f);        // Black text
+    glColor3f(0.0f, 0.0f, 0.0f);        
     const char* searchText = "search...";
     for (const char* c = searchText; *c != '\0'; c++) {
         glutStrokeCharacter(GLUT_STROKE_ROMAN, *c);
@@ -52,8 +57,8 @@ void drawMonitor() {
 
     // 3. "Google.com" Text
     glPushMatrix();
-    glTranslatef(-1.0f, 0.2f, 0.0f);  // Shifted left, placed above search bar
-    glScalef(0.0015f, 0.0015f, 1.0f); // Scale down the large stroke font
+    glTranslatef(-0.85f, 0.2f, 0.0f); // Shifted slightly for better visual centering
+    glScalef(0.0015f, 0.0015f, 1.0f); 
     glLineWidth(2.0f);
     
     // Official Google Colors: Blue, Red, Yellow, Blue, Green, Red
@@ -81,9 +86,12 @@ void drawMonitor() {
     
     glLineWidth(1.0f); // Reset line width
     glPopMatrix();
+
+    // RESTORE LIGHTING STATE after UI is drawn
+    if (lightState) glEnable(GL_LIGHTING);
     // ---------------------------------------
 
-    glPopMatrix();
+    glPopMatrix(); // End Screen Content
 
     // Neck
     glPushMatrix();

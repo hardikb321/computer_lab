@@ -18,37 +18,68 @@ void drawMonitor() {
     glColor3f(0.1f, 0.1f, 0.1f);
     drawMonitorCube(3.5, 2.2, 0.3);
 
-    // Screen (BLUE)
+    // Screen (WHITE)
     glPushMatrix();
-    glTranslatef(0, 0, 0.18);
-    glColor3f(0.0f, 0.5f, 1.0f);
+    glTranslatef(0.0f, 0.0f, 0.18f);
+    glColor3f(1.0f, 1.0f, 1.0f); // Changed to White
     drawMonitorCube(3.0, 1.7, 0.05);
 
-    // --- ADDED: Google Home Page Content ---
-    // Move slightly forward in Z to draw on top of the screen surface 
-    // (Screen depth is 0.05, so the front face is at 0.025. Using 0.026 avoids z-fighting)
+    // --- Google Home Page Content ---
     glTranslatef(0.0f, 0.0f, 0.026f); 
 
-    // 1. Search Bar (White flat rectangle)
+    // 1. Search Bar (Black Outline)
     glPushMatrix();
-    glTranslatef(0.0f, -0.2f, 0.0f);     // Positioned below the center
-    glColor3f(1.0f, 1.0f, 1.0f);         // White color 
-    drawMonitorCube(1.8f, 0.25f, 0.01f); // Keeps width at 1.8 to stay inside the 3.0 wide screen
+    glTranslatef(0.0f, -0.2f, 0.0f);
+    glColor3f(0.0f, 0.0f, 0.0f); // Black outline
+    glLineWidth(2.0f);           // Slightly thicker outline
+    glPushMatrix();
+    glScalef(1.8f, 0.25f, 0.01f);
+    glutWireCube(1.0);           // Wire cube creates the outline
+    glPopMatrix();
+    glLineWidth(1.0f);
     glPopMatrix();
 
-    // 2. "google.com" Text
+    // 2. "search..." inside the search bar (Black Text)
     glPushMatrix();
-    glTranslatef(-0.85f, 0.2f, 0.0f); // Shifted left to center the string, placed above search bar
-    glScalef(0.0015f, 0.0015f, 1.0f); // Scale down the large stroke font to fit the screen
-    glColor3f(1.0f, 1.0f, 1.0f);      // White text
-    
-    glLineWidth(2.0f); // Make text a bit thicker to read easily
-    const char* text = "google.com";
-    for (const char* c = text; *c != '\0'; c++) {
+    glTranslatef(-0.85f, -0.24f, 0.0f); // Aligned inside the search bar
+    glScalef(0.0008f, 0.0008f, 1.0f); 
+    glColor3f(0.0f, 0.0f, 0.0f);        // Black text
+    const char* searchText = "search...";
+    for (const char* c = searchText; *c != '\0'; c++) {
         glutStrokeCharacter(GLUT_STROKE_ROMAN, *c);
     }
-    glLineWidth(1.0f); // Reset line width to default
+    glPopMatrix();
+
+    // 3. "Google.com" Text
+    glPushMatrix();
+    glTranslatef(-1.0f, 0.2f, 0.0f);  // Shifted left, placed above search bar
+    glScalef(0.0015f, 0.0015f, 1.0f); // Scale down the large stroke font
+    glLineWidth(2.0f);
     
+    // Official Google Colors: Blue, Red, Yellow, Blue, Green, Red
+    float gColors[6][3] = {
+        {0.26f, 0.52f, 0.96f}, // G - Blue
+        {0.92f, 0.26f, 0.21f}, // o - Red
+        {0.98f, 0.73f, 0.02f}, // o - Yellow
+        {0.26f, 0.52f, 0.96f}, // g - Blue
+        {0.20f, 0.66f, 0.33f}, // l - Green
+        {0.92f, 0.26f, 0.21f}  // e - Red
+    };
+    
+    const char* gText = "Google";
+    for (int i = 0; i < 6; i++) {
+        glColor3fv(gColors[i]); // Apply specific color per character
+        glutStrokeCharacter(GLUT_STROKE_ROMAN, gText[i]);
+    }
+    
+    // Write ".com" in Black
+    glColor3f(0.0f, 0.0f, 0.0f); 
+    const char* comText = ".com";
+    for (const char* c = comText; *c != '\0'; c++) {
+        glutStrokeCharacter(GLUT_STROKE_ROMAN, *c);
+    }
+    
+    glLineWidth(1.0f); // Reset line width
     glPopMatrix();
     // ---------------------------------------
 

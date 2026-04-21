@@ -1,6 +1,5 @@
 #ifndef MONITOR_H
 #define MONITOR_H
-
 #include <GL/glut.h>
 
 void drawMonitorCube(float w, float h, float d) {
@@ -10,71 +9,65 @@ void drawMonitorCube(float w, float h, float d) {
     glPopMatrix();
 }
 
-void drawBitmapText(float x, float y, void *font, const char *text) {
-    glRasterPos2f(x, y);
-    for (const char *c = text; *c != '\0'; ++c) {
-        glutBitmapCharacter(font, *c);
-    }
-}
-
 void drawMonitor() {
     glPushMatrix();
     // Move up so the base sits perfectly on the table
-    glTranslatef(0.0f, 2.4f, 0.0f);
+    glTranslatef(0.0f, 2.4f, 0.0f); 
 
     // Bezel (DARK GREY)
     glColor3f(0.1f, 0.1f, 0.1f);
-    drawMonitorCube(3.5f, 2.2f, 0.3f);
+    drawMonitorCube(3.5, 2.2, 0.3);
 
-    // Screen (Google homepage style)
+    // Screen (BLUE)
     glPushMatrix();
-    glTranslatef(0.0f, 0.0f, 0.18f);
+    glTranslatef(0, 0, 0.18);
+    glColor3f(0.0f, 0.5f, 1.0f);
+    drawMonitorCube(3.0, 1.7, 0.05);
 
-    // Screen background
-    glColor3f(1.0f, 1.0f, 1.0f);
-    drawMonitorCube(3.0f, 1.7f, 0.05f);
+    // --- ADDED: Google Home Page Content ---
+    // Move slightly forward in Z to draw on top of the screen surface 
+    // (Screen depth is 0.05, so the front face is at 0.025. Using 0.026 avoids z-fighting)
+    glTranslatef(0.0f, 0.0f, 0.026f); 
 
-    glDisable(GL_LIGHTING);
-
-    // Google logo text
-    glColor3f(0.2f, 0.2f, 0.2f);
+    // 1. Search Bar (White flat rectangle)
     glPushMatrix();
-    glTranslatef(-0.52f, 0.18f, 0.03f);
-    drawBitmapText(0.0f, 0.0f, GLUT_BITMAP_HELVETICA_18, "Google");
+    glTranslatef(0.0f, -0.2f, 0.0f);     // Positioned below the center
+    glColor3f(1.0f, 1.0f, 1.0f);         // White color 
+    drawMonitorCube(1.8f, 0.25f, 0.01f); // Keeps width at 1.8 to stay inside the 3.0 wide screen
     glPopMatrix();
 
-    // Search bar
+    // 2. "google.com" Text
     glPushMatrix();
-    glTranslatef(-0.92f, -0.08f, 0.03f);
-    glColor3f(0.95f, 0.95f, 0.95f);
-    drawMonitorCube(1.85f, 0.26f, 0.01f);
+    glTranslatef(-0.85f, 0.2f, 0.0f); // Shifted left to center the string, placed above search bar
+    glScalef(0.0015f, 0.0015f, 1.0f); // Scale down the large stroke font to fit the screen
+    glColor3f(1.0f, 1.0f, 1.0f);      // White text
+    
+    glLineWidth(2.0f); // Make text a bit thicker to read easily
+    const char* text = "google.com";
+    for (const char* c = text; *c != '\0'; c++) {
+        glutStrokeCharacter(GLUT_STROKE_ROMAN, *c);
+    }
+    glLineWidth(1.0f); // Reset line width to default
+    
     glPopMatrix();
+    // ---------------------------------------
 
-    // Search prompt inside the bar
-    glColor3f(0.55f, 0.55f, 0.55f);
-    glPushMatrix();
-    glTranslatef(-0.82f, -0.12f, 0.04f);
-    drawBitmapText(0.0f, 0.0f, GLUT_BITMAP_HELVETICA_12, "Search Google");
-    glPopMatrix();
-
-    glEnable(GL_LIGHTING);
     glPopMatrix();
 
     // Neck
     glPushMatrix();
-    glTranslatef(0.0f, -1.6f, 0.0f);
+    glTranslatef(0, -1.6, 0);
     glColor3f(0.25f, 0.25f, 0.25f);
-    drawMonitorCube(0.4f, 1.2f, 0.2f);
+    drawMonitorCube(0.4, 1.2, 0.2);
     glPopMatrix();
 
     // Base
     glPushMatrix();
-    glTranslatef(0.0f, -2.3f, 0.3f);
+    glTranslatef(0, -2.3, 0.3);
     glColor3f(0.2f, 0.2f, 0.2f);
-    drawMonitorCube(1.8f, 0.2f, 1.0f);
+    drawMonitorCube(1.8, 0.2, 1.0);
     glPopMatrix();
 
     glPopMatrix();
 }
-
 #endif

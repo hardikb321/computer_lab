@@ -20,6 +20,9 @@ float lookX = 0.0f, lookY = 1.0f, lookZ = 0.0f;
 float angleY = 0.0f; // Stores the current Left/Right rotation (Yaw)
 float angleX = 0.0f; // Stores the current Up/Down rotation (Pitch)
 
+// LIGHTING STATE
+bool lightOn = true; // Tracks if the global room light is on
+
 void drawRoom() {
     // Floor
     glColor3f(0.8f, 0.8f, 0.8f); // Light Tile Floor
@@ -44,7 +47,6 @@ void drawComputerStation(float x, float z) {
 
     // --- TABLE AND DESKTOP ITEMS GROUP ---
     glPushMatrix();
-    // Fixed table height locked to 0.50f
     glTranslatef(0.0f, 0.50f, 0.0f); 
 
     // 1. Draw Table
@@ -76,7 +78,6 @@ void drawComputerStation(float x, float z) {
 
     // 5. Draw Chair
     glPushMatrix();
-    // Fixed chair height locked to -0.8f to prevent floor clipping
     glTranslatef(0.0f, -0.8f, 2.2f);     
     glRotatef(180.0f, 0.0f, 1.0f, 0.0f); 
     glScalef(0.4f, 0.4f, 0.4f);          
@@ -85,7 +86,6 @@ void drawComputerStation(float x, float z) {
 
     // 6. Draw CPU Cabinet
     glPushMatrix();
-    // Fixed CPU height locked to -0.8f to prevent floor clipping
     glTranslatef(1.2f, -0.8f, 0.0f); 
     glScalef(0.8f, 0.8f, 0.8f);       
     drawCPU();
@@ -95,6 +95,15 @@ void drawComputerStation(float x, float z) {
 }
 
 void display() {
+    // Dynamically change background color and light state based on toggle
+    if (lightOn) {
+        glClearColor(0.9f, 0.9f, 0.95f, 1.0f); // Bright Room
+        glEnable(GL_LIGHT0);
+    } else {
+        glClearColor(0.05f, 0.05f, 0.05f, 1.0f); // Pitch Black Room
+        glDisable(GL_LIGHT0);
+    }
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
@@ -138,13 +147,14 @@ void keyboardInput(unsigned char key, int x, int y) {
         case 'a': camX -= 0.5; lookX -= 0.5; break; 
         case 'd': camX += 0.5; lookX += 0.5; break; 
         
-        // Rotation: Left and Right
+        // Rotation
         case 'q': case 'Q': angleY -= 2.0f; break; // Rotate Left
         case 'e': case 'E': angleY += 2.0f; break; // Rotate Right
-        
-        // Rotation: Up and Down
         case 'r': case 'R': angleX -= 2.0f; break; // Tilt Up
         case 'f': case 'F': angleX += 2.0f; break; // Tilt Down
+        
+        // TOGGLE LIGHTS
+        case 'l': case 'L': lightOn = !lightOn; break; 
         
         case 27: exit(0); // Escape key
     }
@@ -152,11 +162,10 @@ void keyboardInput(unsigned char key, int x, int y) {
 }
 
 void init() {
-    glClearColor(0.9f, 0.9f, 0.95f, 1.0f);
+    // Initial color is set dynamically in display() now
     glEnable(GL_DEPTH_TEST);
     
     glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
     glEnable(GL_COLOR_MATERIAL);
     
     GLfloat light_pos[] = { 0.0f, 10.0f, 5.0f, 1.0f }; 

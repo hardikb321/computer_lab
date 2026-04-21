@@ -2,6 +2,9 @@
 #define MONITOR_H
 #include <GL/glut.h>
 
+// Allows us to read the light state from main.cpp!
+extern bool lightOn; 
+
 void drawMonitorCube(float w, float h, float d) {
     glPushMatrix();
     glScalef(w, h, d);
@@ -22,12 +25,27 @@ void drawMonitor() {
     glPushMatrix();
     glTranslatef(0.0f, 0.0f, 0.18f);
     glColor3f(1.0f, 1.0f, 1.0f); // Screen Background
+    
+    // --- ADD GLOW IN THE DARK ---
+    GLfloat screenEmission[] = { 0.8f, 0.8f, 0.8f, 1.0f }; // Bright White glow
+    GLfloat noEmission[] = { 0.0f, 0.0f, 0.0f, 1.0f };     // Turn off glow
+    if (!lightOn) {
+        glMaterialfv(GL_FRONT, GL_EMISSION, screenEmission);
+    }
+    
     drawMonitorCube(3.0, 1.7, 0.05);
+
+    // Turn glow off immediately so it doesn't affect the rest of the room
+    if (!lightOn) {
+        glMaterialfv(GL_FRONT, GL_EMISSION, noEmission);
+    }
+    // ----------------------------
 
     // --- Google Home Page Content ---
     glTranslatef(0.0f, 0.0f, 0.026f); // Move forward to avoid Z-fighting
     
     // TEMPORARILY DISABLE LIGHTING to prevent colors from washing out
+    // Since lighting is disabled here, the Google text naturally glows in the dark!
     GLboolean lightState;
     glGetBooleanv(GL_LIGHTING, &lightState);
     glDisable(GL_LIGHTING);

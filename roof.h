@@ -3,6 +3,9 @@
 
 #include <GL/glut.h>
 
+// Allows us to read the global light state from main.cpp!
+extern bool lightOn; 
+
 void drawRoof() {
     // 1. Draw the Main Ceiling (Off-white)
     glColor3f(0.9f, 0.9f, 0.9f); 
@@ -15,9 +18,16 @@ void drawRoof() {
     glEnd();
 
     // 2. Draw Fluorescent Light Panels
-    // We disable lighting temporarily so the panels look like they are glowing bright white
+    // We disable lighting temporarily so the panels look flat
     glDisable(GL_LIGHTING); 
-    glColor3f(1.0f, 1.0f, 1.0f); 
+    
+    // --- CHANGED: Check if lights are on or off ---
+    if (lightOn) {
+        glColor3f(1.0f, 1.0f, 1.0f); // Bright white when ON
+    } else {
+        glColor3f(0.2f, 0.2f, 0.2f); // Dark gray when OFF
+    }
+    // ----------------------------------------------
     
     glBegin(GL_QUADS);
     // Create a 3x3 grid of lights across the ceiling

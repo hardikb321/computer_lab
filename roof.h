@@ -18,14 +18,14 @@ void drawRoof() {
     glEnd();
 
     // 2. Draw Fluorescent Light Panels
-    // We disable lighting temporarily so the panels look flat
+   
     glDisable(GL_LIGHTING); 
     
     // --- CHANGED: Check if lights are on or off ---
     if (lightOn) {
-        glColor3f(1.0f, 1.0f, 1.0f); // Bright white when ON
+        glColor3f(1.0f, 1.0f, 1.0f);
     } else {
-        glColor3f(0.2f, 0.2f, 0.2f); // Dark gray when OFF
+        glColor3f(0.2f, 0.2f, 0.2f); 
     }
     // ----------------------------------------------
     

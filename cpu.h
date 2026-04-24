@@ -48,9 +48,9 @@ void drawCPU() {
     glEnd();
 
     // 2. CD/DVD Drive Bay at the top front
-    glColor3f(0.05f, 0.05f, 0.05f); // Darker grey
+    glColor3f(0.05f, 0.05f, 0.05f);
     glBegin(GL_QUADS);
-    glVertex3f(-0.20f, 0.9f, 0.51f); // Pulled slightly forward on Z to prevent z-fighting
+    glVertex3f(-0.20f, 0.9f, 0.51f); 
     glVertex3f( 0.20f, 0.9f, 0.51f);
     glVertex3f( 0.20f, 1.1f, 0.51f);
     glVertex3f(-0.20f, 1.1f, 0.51f);

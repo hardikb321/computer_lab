@@ -3,7 +3,7 @@
 #include <GL/glut.h>
 #include <cmath>
 
-float chairSwivel = 15.0f; // Spin the seat slightly so it looks natural
+float chairSwivel = 15.0f; 
 
 // Renamed to avoid clashing with keyboard's drawBox
 void drawChairBox(float w, float h, float d) {
@@ -106,7 +106,7 @@ void drawOfficeChair() {
     glutSolidSphere(1.0, 32, 32);
     glPopMatrix();
 
-    glPopMatrix(); // End Swivel
-    glPopMatrix(); // End Chair
+    glPopMatrix(); 
+    glPopMatrix();
 }
 #endif

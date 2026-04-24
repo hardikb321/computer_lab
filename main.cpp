@@ -17,21 +17,14 @@ float camX = 0.0f, camY = 3.0f, camZ = 16.0f;
 float lookX = 0.0f, lookY = 1.0f, lookZ = 0.0f;
 
 // Rotation controls
-float angleY = 0.0f; // Stores the current Left/Right rotation (Yaw)
-float angleX = 0.0f; // Stores the current Up/Down rotation (Pitch)
+float angleY = 0.0f; 
+float angleX = 0.0f; 
 
 // LIGHTING STATE
-bool lightOn = true; // Tracks if the global room light is on
+bool lightOn = true; 
 
 void drawRoom() {
-    // Floor
-    glColor3f(0.8f, 0.8f, 0.8f); // Light Tile Floor
-    glBegin(GL_QUADS);
-    glVertex3f(-15.0, -1.5,  15.0); 
-    glVertex3f( 15.0, -1.5,  15.0);
-    glVertex3f( 15.0, -1.5, -15.0);
-    glVertex3f(-15.0, -1.5, -15.0);
-    glEnd();
+    
 
     // Draw the walls
     drawWalls(); 
@@ -45,7 +38,7 @@ void drawComputerStation(float x, float z) {
     glPushMatrix();
     glTranslatef(x, 0.0f, z); 
 
-    // --- TABLE AND DESKTOP ITEMS GROUP ---
+   
     glPushMatrix();
     glTranslatef(0.0f, 0.50f, 0.0f); 
 
@@ -73,8 +66,8 @@ void drawComputerStation(float x, float z) {
     drawHardwareMouse();
     glPopMatrix();
 
-    glPopMatrix(); // End Table Group
-    // -------------------------------------
+    glPopMatrix(); 
+ 
 
     // 5. Draw Chair
     glPushMatrix();
@@ -91,16 +84,16 @@ void drawComputerStation(float x, float z) {
     drawCPU();
     glPopMatrix();
 
-    glPopMatrix(); // End Station
+    glPopMatrix(); 
 }
 
 void display() {
     // Dynamically change background color and light state based on toggle
     if (lightOn) {
-        glClearColor(0.9f, 0.9f, 0.95f, 1.0f); // Bright Room
+        glClearColor(0.9f, 0.9f, 0.95f, 1.0f);
         glEnable(GL_LIGHT0);
     } else {
-        glClearColor(0.05f, 0.05f, 0.05f, 1.0f); // Pitch Black Room
+        glClearColor(0.05f, 0.05f, 0.05f, 1.0f); 
         glDisable(GL_LIGHT0);
     }
 
@@ -133,8 +126,8 @@ void display() {
         }
     }
 
-    glPopMatrix(); // End Scene Rotation
-    // -----------------------------------------
+    glPopMatrix(); 
+    
 
     glutSwapBuffers();
 }
@@ -148,21 +141,21 @@ void keyboardInput(unsigned char key, int x, int y) {
         case 'd': camX += 0.5; lookX += 0.5; break; 
         
         // Rotation
-        case 'q': case 'Q': angleY -= 2.0f; break; // Rotate Left
-        case 'e': case 'E': angleY += 2.0f; break; // Rotate Right
-        case 'r': case 'R': angleX -= 2.0f; break; // Tilt Up
-        case 'f': case 'F': angleX += 2.0f; break; // Tilt Down
+        case 'q': case 'Q': angleY -= 2.0f; break; 
+        case 'e': case 'E': angleY += 2.0f; break; 
+        case 'r': case 'R': angleX -= 2.0f; break; 
+        case 'f': case 'F': angleX += 2.0f; break; 
         
         // TOGGLE LIGHTS
         case 'l': case 'L': lightOn = !lightOn; break; 
         
-        case 27: exit(0); // Escape key
+        case 27: exit(0);
     }
     glutPostRedisplay();
 }
 
 void init() {
-    // Initial color is set dynamically in display() now
+    
     glEnable(GL_DEPTH_TEST);
     
     glEnable(GL_LIGHTING);

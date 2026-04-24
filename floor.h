@@ -16,15 +16,15 @@ void drawFloor() {
     glEnd();
 
     // 2. Draw the grid lines
-    // Disable lighting temporarily so the lines render as a flat, solid color
+   
     glDisable(GL_LIGHTING);
     
-    glColor3f(0.5f, 0.5f, 0.5f); // Medium-dark grey for the lines
-    glLineWidth(1.5f); // Make the lines slightly thicker
+    glColor3f(0.5f, 0.5f, 0.5f);
+    glLineWidth(1.5f); 
     
     // Set the Y coordinate slightly higher than the floor to prevent z-fighting (glitching)
     float lineY = -1.49f; 
-    float spacing = 1.5f; // How far apart the lines should be
+    float spacing = 1.5f;
     
     glBegin(GL_LINES);
     

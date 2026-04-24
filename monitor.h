@@ -45,7 +45,7 @@ void drawMonitor() {
     glTranslatef(0.0f, 0.0f, 0.026f); // Move forward to avoid Z-fighting
     
     // TEMPORARILY DISABLE LIGHTING to prevent colors from washing out
-    // Since lighting is disabled here, the Google text naturally glows in the dark!
+    
     GLboolean lightState;
     glGetBooleanv(GL_LIGHTING, &lightState);
     glDisable(GL_LIGHTING);
@@ -53,8 +53,8 @@ void drawMonitor() {
     // 1. Search Bar (Black Outline)
     glPushMatrix();
     glTranslatef(0.0f, -0.2f, 0.0f);
-    glColor3f(0.0f, 0.0f, 0.0f); // Black outline
-    glLineWidth(2.0f);           // Slightly thicker outline
+    glColor3f(0.0f, 0.0f, 0.0f); 
+    glLineWidth(2.0f);           
     glPushMatrix();
     glScalef(1.8f, 0.25f, 0.01f);
     glutWireCube(1.0);           
@@ -75,7 +75,7 @@ void drawMonitor() {
 
     // 3. "Google.com" Text
     glPushMatrix();
-    glTranslatef(-0.85f, 0.2f, 0.0f); // Shifted slightly for better visual centering
+    glTranslatef(-0.85f, 0.2f, 0.0f); 
     glScalef(0.0015f, 0.0015f, 1.0f); 
     glLineWidth(2.0f);
     
@@ -107,7 +107,6 @@ void drawMonitor() {
 
     // RESTORE LIGHTING STATE after UI is drawn
     if (lightState) glEnable(GL_LIGHTING);
-    // ---------------------------------------
 
     glPopMatrix(); // End Screen Content
 
